@@ -1,0 +1,345 @@
+@font-face {
+    font-family: Bricolage;
+    src: url('assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf');
+}
+@font-face {
+    font-family: Dm sans;
+    src: url('/assets/fonts/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf');
+}
+
+
+body {
+    background-color: #02012C ;
+    color: white ;
+    padding: 48px 112px 80px 112px;
+    /* text-align: center; */
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+nav p {
+    font-family: Bricolage;
+    /* font-size: 22px; */
+}
+
+nav select {
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    background-color: #262540;
+    width: 119px;
+    border: none;
+    height: 43px;
+    color: white;
+    text-align: center;
+    padding: 12px 16px 12px 16px;
+    background-image: url('/assets/images/icon-units.svg');
+    background-position:13px ;
+    background-repeat: no-repeat;
+    
+    
+}
+/* 
+nav.img {
+    width: 16px;
+} */
+
+h1 {
+    font-family: Bricolage;
+    text-align: center;
+    font-size: 52px;
+}
+
+.searchCity {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 526px;
+    /* height: 56px; */
+    padding: 16px 24px 16px 30px;
+    gap: 12px;
+    background-color: #262540;
+    outline: none;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    background-image: url('/assets/images/icon-search.svg') ;
+    /* padding-left:16px ; */
+    background-repeat: no-repeat;
+    background-position: 8px ;
+}
+
+
+input::placeholder {
+    color: #D4D3D9;
+    font-family: Dm Sans
+}
+
+.searchCity button {
+    background-color:#4658D9 ;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: Dm Sans;
+    width: 114px;
+
+}
+
+.allWeatherContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: 
+      "all all hourly "
+      /* "info info hourly" */
+      "daily daily hourly"
+    
+    ;
+    
+   gap: 32px;
+    /* padding: 30px; */
+}
+
+.all {
+    grid-area: all;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.countryDiv {
+   background: linear-gradient(to right ,  #4658D9, #2B1B9C );
+   /* height: 286px; */
+   grid-area: country;
+   /* width: 800px; */
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    padding: 80px 24px 80px 24px;
+}
+
+.textDiv {
+    width: 458px;
+    height: 63px;
+    /* gap: 12px; */
+}
+
+.textDiv h3 {
+    font-family: Dm sans;
+    font-size: 28px;
+}
+
+.textDiv p {
+    font-family: Dm sans;
+    font-size: 18px;
+    /* line-height: 120%; */
+}
+
+.tempDiv {
+    display: flex;
+    justify-content: space-between;
+     font-family: Dm sans;
+     font-style: italic;
+        font-size: 50px;
+}
+.tempDiv img {
+   margin-top: 20px;
+}
+
+.infoDiv {
+    /* width: 800px; */
+    /* grid-area: info; */
+    height: 118px;
+    display: flex;
+    gap: 24px;
+}
+
+.infoDiv div {
+    background-color: #262540;
+    padding: 15px;
+    border-radius: 12px;
+    gap: 24px;
+    width: 182px;
+    font-family: Dm sans;
+
+}
+
+.infoDiv span {
+    color: #D4D3D9;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.infoDiv p {
+    font-size: 32px;
+    font-weight: lighter;
+}
+
+.dailyDiv {
+    /* width: 800px; */
+    /* height: 209px; */
+        font-family: Dm Sans;
+        grid-area: daily;
+
+    /* display: flex; */
+}
+
+.forecastDiv {
+    display: flex;
+    gap: 20px;
+    font-family: Dm Sans;
+}
+
+.forecastDiv div {
+    background-color: #262540;
+    border-radius: 12px;
+    padding: 16px 10px 16px 10px;
+    height: 165px;
+    width: 100px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.forecastDiv span {
+    display: flex;
+    justify-content: space-around;
+
+}
+.forecastDiv span p {
+    font-size: 16px;
+
+}
+
+.hourlyDiv {
+    background-color: #262540;
+    grid-area: hourly;
+    height: 709px;
+    /* width: 384px; */
+    display: grid;
+    padding: 24px;
+    gap: 16px;
+    position: relative;
+    border-radius: 20px;
+    /* margin-top: 30px; */
+}
+
+.hourlyHeader {
+    display: flex;
+    justify-content: space-between;
+    font-family: Dm sans;
+    color: white;
+    /* background-color: red; */
+
+}
+
+.hourlyHeader select {
+    gap: 12px;
+    background-color: #3C3B5E;
+    border: none;
+    width: 120px;
+    height: 37px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px 16px 8px 16px;
+    color: white;
+    
+}
+
+.hourlyHeader option {
+    background-color: #262540;
+        border-radius: 12px;
+        outline-color: red;
+        /* border: red; */
+   /* border: 1px solid #262540; */
+    text-align: left;
+    gap: 4px;
+    padding: 8px 8px;
+    box-shadow: 0px 8px 16px rgb(2, 1, 44) ;
+}
+
+.hourlyContent {
+    gap: 16px;
+    display: grid;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.hourlyContent div {
+    /* width: 336px; */
+    height: 60px;
+    background-color: #302F4A ;
+    border-radius: 8px;
+    padding: 10px 16px 10px 12px;
+    font-family: dm sans;
+    display: flex;
+    justify-content: space-between;
+}
+#locationError {
+    display: none;
+    font-family: dm sans;
+}
+
+@media screen and (max-width: 920px)  and (min-width: 560px) { 
+    body {
+        padding: 24px 24px 80px 24px;
+    }
+
+    .allWeatherContainer {
+        display: block;
+        /* overflow: none; */
+
+    }
+
+    h1 {
+        /* width: 482px; */
+        /* text-align: center; */
+    }
+
+    .hourlyDiv {
+        margin-top: 30px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+
+    body {
+        padding: 16px 16px 48px 16px ;
+    }
+    
+    .allWeatherContainer {
+        display: block;
+        gap: 32px;
+
+        /* overflow: none; */
+
+    }
+
+    .infoDiv {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: fit-content;
+
+        div {
+            width: 150px;
+        }
+    }
+
+    .forecastDiv {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+
+      .forecastDiv div {
+        width: 103px;
+      }
+
+    }
+
+    
+}
