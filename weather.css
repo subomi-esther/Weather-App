@@ -315,3 +315,15 @@ input::placeholder {
     }
 }
 
+@media screen and (max-width: 1024px) {
+    
+    .mainDiv {
+     background-color: #02012C ;
+    color: white ;
+    padding: 48px 11px 80px 11px;
+}
+
+.forecastDiv div {
+    width: 80px;
+}
+}
