@@ -10,16 +10,16 @@
 
 body {
     margin: 0;
-    /* background-color: #02012C ;
-    color: white ;
-    padding: 48px 112px 80px 112px; */
-    /* text-align: center; */
+
 }
 .mainDiv {
-     background-color: #02012C ;
+    background-color: #02012C ;
     color: white ;
-    padding: 48px 112px 80px 112px;
+    margin: 0;
+    padding: 16px 16px 48px 16px;
+
 }
+
 
 nav {
     display: flex;
@@ -60,15 +60,16 @@ h1 {
 
 .searchCity {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 12px;
+    /* margin-bottom: 10px; */
 }
 
 input {
-    width: 526px;
+    width: 308px;
     /* height: 56px; */
-    padding: 16px 24px 16px 30px;
+    padding: 16px 24px 16px 24px;
     gap: 12px;
     background-color: #262540;
     outline: none;
@@ -93,26 +94,18 @@ input::placeholder {
     border: none;
     border-radius: 12px;
     font-family: Dm Sans;
-    width: 114px;
+    width: 355px;
+    padding: 16px 24px 16px 24px;
 
 }
 
 .allWeatherContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas: 
-      "all all hourly "
-      /* "info info hourly" */
-      "daily daily hourly"
-    
-    ;
-    
+    display: flex;
+    flex-direction: column;
    gap: 32px;
-    /* padding: 30px; */
 }
 
 .all {
-    grid-area: all;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -158,19 +151,20 @@ input::placeholder {
 }
 
 .infoDiv {
-    /* width: 800px; */
-    /* grid-area: info; */
-    height: 118px;
-    display: flex;
-    gap: 24px;
+   height: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 16px;
+
 }
 
 .infoDiv div {
     background-color: #262540;
-    padding: 15px;
     border-radius: 12px;
     gap: 24px;
-    width: 182px;
+    width: 130px;
+    height: 118px;
+    padding: 20px;
     font-family: Dm sans;
 
 }
@@ -190,14 +184,14 @@ input::placeholder {
     /* width: 800px; */
     /* height: 209px; */
         font-family: Dm Sans;
-        grid-area: daily;
 
     /* display: flex; */
 }
 
 .forecastDiv {
-    display: flex;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 16px;
     font-family: Dm Sans;
 }
 
@@ -206,7 +200,7 @@ input::placeholder {
     border-radius: 12px;
     padding: 16px 10px 16px 10px;
     height: 165px;
-    width: 100px;
+    width: 88px;
     text-align: center;
     font-size: 18px;
 }
@@ -290,28 +284,19 @@ input::placeholder {
     font-family: dm sans;
 }
 
-@media screen and (max-width: 920px)  and (min-width: 560px) { 
-    body {
-        margin: 0 ;
+@media  screen and (max-width: 390px) {
+    input {
+        width: 280px;
     }
- 
-    .mainDiv {
-                padding: 24px 24px 80px 24px;
-
-    }
-    .allWeatherContainer {
-        display: block;
-        /* overflow: none; */
-
+    .searchCity button {
+        width: 325px;
     }
 
-    h1 {
-        /* width: 482px; */
-        /* text-align: center; */
+    .infoDiv div {
+        width: 108px;
     }
 
-    .hourlyDiv {
-        margin-top: 30px;
+    .forecastDiv div {
+        width: 78px;
     }
 }
-
