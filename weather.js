@@ -55,8 +55,82 @@ const iconic = document.getElementsByClassName('iconic')
         99:"/assets/images/icon-storm.webp" 
     }
    
+// Check if geolocation is supported by the browser
+
+async function displayDefault() {
+    
+    if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+  
+      console.log(`Latitude: ${lat}, longitude: ${lng}`);
+
+         const key = '1c74956294ce45b6bf06a906681e8e13'
+
+        const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&type=country&apiKey=${key}`
+        
+  fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data =>{ 
+    console.log(data)
+    // let result = data
+
+      let  lat = data.features[0].properties.lat
+      let  lon = data.features[0].properties.lon
+      city.innerHTML = `${data.features[0].properties.country}`
+
+       
+       
+    getWeather(lat, lon)
+})
+  .catch(error => console.error('Fetch error:', error));
 
 
+    },
+    // Error callback function
+    (error) => {
+      console.error("Error getting user location:", error);
+    }
+  );
+} 
+        // const defaultCity = 'tokyo'
+    //      const key = '1c74956294ce45b6bf06a906681e8e13'
+    // //  const url= `https://api.geoapify.com/v1/geocode/search?text=${defaultCity}&lang=en&type=city&format=json&apiKey=${key}`
+    
+    // const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&type=country&apiKey=${key}`
+    // try {
+    //     const response = await fetch(url)
+    //     if(!response.ok){
+    //         throw new error('Response status: ${response.status}')
+    //     }
+
+    //     const result = await response.json()
+    //     console.log(result)
+    //     lat = result.results[0].lat
+    //     lon = result.results[0].lon
+
+    // city.innerHTML = `${result.results[0].city}, ${result.results[0].country}`
+
+       
+       
+    // getWeather(lat, lon)
+
+    // } catch(error) {
+    //     console.log(error.message)
+    // }
+
+
+    
+}
+
+displayDefault()
 
 async function getGeodata() {
   const search = inputText.value.trim()
@@ -65,6 +139,7 @@ async function getGeodata() {
  const key = '1c74956294ce45b6bf06a906681e8e13'
 const url= `https://api.geoapify.com/v1/geocode/search?text=${search}&lang=en&type=city&format=json&apiKey=${key}`
     // const url = `https://nominatim.openstreetmap.org/search?q=${search}&format=jsonv2&addressdetails=1`;
+    // const defaultCity = 'Lagos'
     try {
         const response = await fetch(url)
         if(!response.ok){
@@ -88,6 +163,8 @@ const url= `https://api.geoapify.com/v1/geocode/search?text=${search}&lang=en&ty
     }
 }
 // getGeodata()
+
+
 
 
 const getWeather = async () => {
