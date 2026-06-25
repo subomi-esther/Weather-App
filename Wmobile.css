@@ -63,12 +63,14 @@ h1 {
     flex-direction: column;
     justify-content: center;
     gap: 12px;
+    width: 100%;
     /* margin-bottom: 10px; */
 }
 
 input {
-    width: 308px;
+    /* width: 308px; */
     /* height: 56px; */
+    /* width: max-content; */
     padding: 16px 24px 16px 24px;
     gap: 12px;
     background-color: #262540;
@@ -94,9 +96,15 @@ input::placeholder {
     border: none;
     border-radius: 12px;
     font-family: Dm Sans;
-    width: 355px;
+    width: 100%;
+    /* width: 355px; */
     padding: 16px 24px 16px 24px;
 
+}
+
+.searchCity form {
+    overflow: hidden;
+    /* width: max-content; */
 }
 
 .allWeatherContainer {
@@ -153,15 +161,17 @@ input::placeholder {
 .infoDiv {
    height: auto;
     display: grid;
+    width: 100%;
+    justify-content: space-between;
     grid-template-columns: auto auto;
-    gap: 16px;
+    /* gap: 16px; */
 
 }
 
 .infoDiv div {
     background-color: #262540;
     border-radius: 12px;
-    gap: 24px;
+    /* gap: 24px; */
     width: 130px;
     height: 118px;
     padding: 20px;
