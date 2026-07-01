@@ -24,7 +24,7 @@ const iconic = document.getElementsByClassName('iconic')
 
 
 
-   const weatherCodes = {
+const weatherCodes = {
         0: "/assets/images/icon-sunny.webp" ,
         1: "/assets/images/icon-sunny.webp" ,
         2:"/assets/images/icon-partly-cloudy.webp"  ,
@@ -55,82 +55,92 @@ const iconic = document.getElementsByClassName('iconic')
         99:"/assets/images/icon-storm.webp" 
     }
    
-// Check if geolocation is supported by the browser
 
-async function displayDefault() {
+const getWeather = async (lat, lon) => {
+
+    try {
+        const url= `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`
+
+        const response = await fetch(url )
+
+        const weather = await response.json()
+        console.log(weather);
+
+
+        let dateOptions = {
+            weekday: "long",
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        }
+
+        let datey = new Intl.DateTimeFormat("en-us", dateOptions).format(new Date())
+        locationDate.innerHTML = datey
+        temp.innerHTML = `${Math.round(weather.current.temperature_2m)}&degC`;
+
+        feelsLike.innerHTML = `${Math.round(weather.current.apparent_temperature)}&degC`
+        wind.innerHTML = `${weather.current.wind_speed_10m}km/h`
+        humidity.innerHTML = `${weather.current.relative_humidity_2m}%`
+        ppt.innerHTML = `${weather.current.precipitation}mmm`
     
-    if ("geolocation" in navigator) {
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-  
-      console.log(`Latitude: ${lat}, longitude: ${lng}`);
 
-         const key = '1c74956294ce45b6bf06a906681e8e13'
+        function hourly() {
+            for (let h=0; h<=23; h++){ 
+            let datey = new Date(weather.hourly.time[h])
+            let hour = new Intl.DateTimeFormat("en-US", {hour: "numeric", hour12: true}).format(datey)
 
-        const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&type=country&apiKey=${key}`
-        
-  fetch(url)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+            //   let dan = Date.now(datey)
+            hourlyTime[h].textContent = hour
+            hourlyTemp[h].textContent = Math.round(weather.hourly.temperature_2m[h])
+            }
+            
+
+        }
+        hourly()
+            
+        let daily = weather.daily
+
+        for (let i=0; i< 7; i++) {
+            let date = new Date(daily.time[i])
+            let dayofWeek = new Intl.DateTimeFormat("en-Us", {weekday: "short"}).format(date)
+
+                
+            console.log(dayofWeek)
+            dailyDays[i].textContent = dayofWeek
+            hourlyDays[i].textContent = dayofWeek
+            tempMax[i].textContent = Math.round (daily.temperature_2m_max[i])
+            tempMin[i].textContent = Math.round(daily.temperature_2m_min[i])
+            
+
+
+            for(let i=0; i<icons.length; i++) {
+                icons[i].src= weatherCodes[weather.daily.weather_code[i]]
+            }
+            for(let i=0; i<iconic.length; i++) {
+                iconic[i].src= weatherCodes[weather.hourly.weather_code[i]]
+            }
+
+            tempImg.src= weatherCodes[weather.current.weather_code]
+
+
+        }
+
+
+        select.addEventListener('change', handleDay, )
+        function handleDay() {
+            console.log('day has been chnaged')
+
+        }
+
+    } 
+
+    catch(error) {
+        // apiErr()
+        console.log(error)
     }
-    return response.json();
-  })
-  .then(data =>{ 
-    console.log(data)
-    // let result = data
-
-      let  lat = data.features[0].properties.lat
-      let  lon = data.features[0].properties.lon
-      city.innerHTML = `${data.features[0].properties.country}`
-
-       
-       
-    getWeather(lat, lon)
-})
-  .catch(error => console.error('Fetch error:', error));
-
-
-    },
-    // Error callback function
-    (error) => {
-      console.error("Error getting user location:", error);
-    }
-  );
-} 
-        // const defaultCity = 'tokyo'
-    //      const key = '1c74956294ce45b6bf06a906681e8e13'
-    // //  const url= `https://api.geoapify.com/v1/geocode/search?text=${defaultCity}&lang=en&type=city&format=json&apiKey=${key}`
-    
-    // const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&type=country&apiKey=${key}`
-    // try {
-    //     const response = await fetch(url)
-    //     if(!response.ok){
-    //         throw new error('Response status: ${response.status}')
-    //     }
-
-    //     const result = await response.json()
-    //     console.log(result)
-    //     lat = result.results[0].lat
-    //     lon = result.results[0].lon
-
-    // city.innerHTML = `${result.results[0].city}, ${result.results[0].country}`
-
-       
-       
-    // getWeather(lat, lon)
-
-    // } catch(error) {
-    //     console.log(error.message)
-    // }
-
 
     
 }
-
-displayDefault()
 
 async function getGeodata() {
   const search = inputText.value.trim()
@@ -138,8 +148,6 @@ async function getGeodata() {
  
  const key = '1c74956294ce45b6bf06a906681e8e13'
 const url= `https://api.geoapify.com/v1/geocode/search?text=${search}&lang=en&type=city&format=json&apiKey=${key}`
-    // const url = `https://nominatim.openstreetmap.org/search?q=${search}&format=jsonv2&addressdetails=1`;
-    // const defaultCity = 'Lagos'
     try {
         const response = await fetch(url)
         if(!response.ok){
@@ -153,9 +161,7 @@ const url= `https://api.geoapify.com/v1/geocode/search?text=${search}&lang=en&ty
 
     city.innerHTML = `${result.results[0].city}, ${result.results[0].country}`
 
-       
-       
-        getWeather(lat, lon)
+    getWeather(lat, lon)
 
     } catch(error) {
         // apiErr()
@@ -166,122 +172,63 @@ const url= `https://api.geoapify.com/v1/geocode/search?text=${search}&lang=en&ty
 
 
 
-
-const getWeather = async () => {
-    try {
-        const url= `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`
-
-        const response = await fetch(url )
-
-    const weather = await response.json()
-    console.log(weather) 
-
-
-        let dateOptions = {
-            weekday: "long",
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-        }
-
-        let datey = new Intl.DateTimeFormat("en-us", dateOptions).format(new Date())
-        locationDate.innerHTML = datey
-
-    temp.innerHTML = `${Math.round(weather.current.temperature_2m)}&degC`;
-
-    feelsLike.innerHTML = `${Math.round(weather.current.apparent_temperature)}&degC`
-    wind.innerHTML = `${weather.current.wind_speed_10m}km/h`
-    humidity.innerHTML = `${weather.current.relative_humidity_2m}%`
-    ppt.innerHTML = `${weather.current.precipitation}mmm`
-    
-   function hourly() {
-     for (let h=0; h<=23; h++){ 
-      let datey = new Date(weather.hourly.time[h])
-       let hour = new Intl.DateTimeFormat("en-US", {hour: "numeric", hour12: true}).format(datey)
-
-    //   let dan = Date.now(datey)
-      hourlyTime[h].textContent = hour
-      hourlyTemp[h].textContent = Math.round(weather.hourly.temperature_2m[h])
-    }
-    
-    
-
-
-
-   }
-
-   
-  hourly()
-      
-    let daily = weather.daily
-
-    for (let i=0; i< 7; i++) {
-      let date = new Date(daily.time[i])
-      let dayofWeek = new Intl.DateTimeFormat("en-Us", {weekday: "short"}).format(date)
-
-        
-      console.log(dayofWeek)
-      dailyDays[i].textContent = dayofWeek
-      hourlyDays[i].textContent = dayofWeek
-      tempMax[i].textContent = Math.round (daily.temperature_2m_max[i])
-      tempMin[i].textContent = Math.round(daily.temperature_2m_min[i])
-      
-
-        
- 
-
-
-    for(let i=0; i<icons.length; i++) {
-        icons[i].src= weatherCodes[weather.daily.weather_code[i]]
-    }
-    for(let i=0; i<iconic.length; i++) {
-        iconic[i].src= weatherCodes[weather.hourly.weather_code[i]]
-    }
-
-    tempImg.src= weatherCodes[weather.current.weather_code]
-
-
-
-
-
-
- }
-
-
-
-select.addEventListener('change', handleDay, )
-function handleDay() {
-    console.log('day has been chngaed')
-
-   
-
-}
-
-
-
-    } 
-
-    catch(error) {
-        // apiErr()
-        console.log(error)
-    }
-
-    
-}
-
-
-
 async function stringto (string) {
     const cord = await getCoordinates(string)
 }
-getWeather()
+// getWeather()
 
 
-    function apiErr() {
+async function displayDefault() {
+    
+    if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+  
+    //   console.log(`Latitude: ${lat}, longitude: ${lng}`);
+
+    const key = '1c74956294ce45b6bf06a906681e8e13'
+    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${key}`
+        
+  fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data =>{ 
+    console.log(data)
+
+    let  lat = data.features[0].properties.lat
+    let  lon = data.features[0].properties.lon
+    city.innerHTML = `${data.features[0].properties.city}, ${data.features[0].properties.country}`
+    getWeather(lat, lon)
+
+
+
+})
+  .catch(error => console.error('Fetch error:', error));
+
+
+    },
+    (error) => {
+      console.error("Error getting user location:", error);
+    }
+  );
+} 
+
+    
+}
+
+displayDefault()
+
+function apiErr() {
         main.style.display = 'none'
         locationError.style.display = 'flex'
         locationError.style.fontSize = '25px'
 
 
-    }
+}
 
